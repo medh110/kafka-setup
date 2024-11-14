@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: medhavisingh12/kafka
+  tag: producer
+  pullPolicy: Always
+
+service:
+  name: kafka-consumer
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+kafka:
+  brokerAddress: "kafka.default.svc.cluster.local:9092"
+  topic: "message-log"
+  groupID: "my-group"
+
+resources: {}

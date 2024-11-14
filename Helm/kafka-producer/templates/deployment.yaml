@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kafka-producer.fullname" . }}
+  labels:
+    app: {{ include "kafka-producer.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "kafka-producer.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "kafka-producer.name" . }}
+    spec:
+      containers:
+        - name: kafka-producer
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: KAFKA_BROKER
+              value: {{ .Values.kafka.brokerAddress }}
+            - name: KAFKA_TOPIC
+              value: {{ .Values.kafka.topic }}
+          ports:
+            - containerPort: 80
+          resources: {}

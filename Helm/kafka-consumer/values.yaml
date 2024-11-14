@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: kafka-consumer
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: kafka-consumer
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+kafka:
+  brokerAddress: "localhost:9092"
+  topic: "message-log"
+
+resources: {}
