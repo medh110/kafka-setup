@@ -10,20 +10,24 @@ terraform {
 provider "aws" {
   region = var.region
 }
+
 module "vpc" {
-  source               = "./modules/vpc"
-  env                  = var.env
-  zone1                = "us-southeast-1a"
-  zone2                = "us-southeast-1b"
-  public_subnet_cidrs  = ["10.0.128.0/19", "10.0.160.0/19"]
-  private_subnet_cidrs = ["10.0.32.0/19", "10.0.64.0/19"]
-  cidr_block           = "10.0.0.0/16"
+  source         = "./modules/vpc"
+  vpc_name       = "custom-eks-vpc"
+  cidr_block     = "10.0.0.0/16"
+  public_subnets = var.public_subnets
+  private_subnets = var.private_subnets
 }
 
 module "eks" {
-  source           = "./modules/eks"
-  env              = var.env
-  eks_name         = var.eks_name
-  eks_version      = var.eks_version
-  subnet_ids       = module.vpc.private_subnet_ids
+  source          = "./modules/eks"
+  cluster_name    = "custom-eks-cluster"
+  vpc_id          = module.vpc.vpc_id
+  private_subnets = module.vpc.private_subnets
+  public_subnets  = module.vpc.public_subnets
+  instance_type   = "t3.small"
+  desired_size    = 2
+  max_size        = 3
+  min_size        = 1
+  region          = "ap-southeast-1"
 }

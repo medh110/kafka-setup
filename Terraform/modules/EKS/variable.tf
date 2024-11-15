@@ -1,46 +1,44 @@
-variable "env" {
-  description = "Environment"
+variable "cluster_name" {
+  description = "Name of the EKS cluster"
   type        = string
-  default     = "dev"
 }
 
-variable "eks_name" {
-  description = "EKS cluster name"
+variable "vpc_id" {
+  description = "VPC ID where the cluster will be created"
   type        = string
-  default     = " "
 }
 
-variable "eks_version" {
-  description = "EKS cluster version"
-  type        = string
-  default     = " "
-}
-
-variable "subnet_ids" {
+variable "private_subnets" {
+  description = "List of private subnet IDs for EKS"
   type        = list(string)
-  description = "List of subnet IDs for the EKS cluster"
+}
+
+variable "public_subnets" {
+  description = "List of public subnet IDs for EKS"
+  type        = list(string)
 }
 
 variable "instance_type" {
-   type = string
-   description = "Type of EC2 instance to use for the EKS cluster"
-   default     = "t3.small"
+  description = "EC2 instance type for EKS nodes"
+  type        = string
 }
 
 variable "desired_size" {
-  description = "Desired size of nodes"
-  type        = string
-  default     = 1
+  description = "Desired number of nodes in the EKS node group"
+  type        = number
 }
 
 variable "max_size" {
-  description = "Max size of nodes"
-  type        = string
-  default     = 2
+  description = "Maximum number of nodes in the EKS node group"
+  type        = number
 }
 
 variable "min_size" {
-  description = "Min size of nodes"
+  description = "Minimum number of nodes in the EKS node group"
+  type        = number
+}
+
+variable "region" {
+  description = "AWS region for EKS"
   type        = string
-  default     = 1
 }

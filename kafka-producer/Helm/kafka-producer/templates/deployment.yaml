@@ -25,5 +25,5 @@ spec:
             - name: KAFKA_TOPIC
               value: {{ .Values.kafka.topic }}
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           resources: {}

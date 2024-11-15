@@ -1,27 +1,19 @@
+variable "vpc_name" {
+  description = "Name of the VPC"
+  type        = string
+}
+
 variable "cidr_block" {
-  type        = string
   description = "CIDR block for the VPC"
+  type        = string
 }
 
-variable "env" {
-  type        = string
-  description = "Environment name (e.g., dev, prod)"
+variable "public_subnets" {
+  description = "List of CIDR blocks for public subnets"
+  type        = list(string)
 }
 
-variable "zone1" {
-  description = "Zone 1"
-  type        = string
-  default     = "ap-southeast-1a"
-}
-
-variable "zone2" {
-  description = "Zone 2"
-  type        = string
-  default     = "ap-southeast-1b"
-}
-
-variable "eks_name" {
-  description = "EKS cluster name"
-  type        = string
-  default     = "demo"
+variable "private_subnets" {
+  description = "List of CIDR blocks for private subnets"
+  type        = list(string)
 }
