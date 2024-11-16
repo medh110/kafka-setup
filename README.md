@@ -133,7 +133,14 @@ run the custom query
 <img width="1512" alt="custom-query" src="https://github.com/user-attachments/assets/7778d258-86e1-491f-8d1e-f45380685b9d">
 
 
-Create scaledObjects to autoscale consumer pod based on lag and upgrade kafka-consumer helm chart 
+## Autoscale consumer pod
+
+Autoscaling based on lag is added to kafka-consumer helm chart under scaledobject.yaml which run our custom query `max(kafka_consumergroup_group_max_lag{group="my-group"}` to autoscale consumer pod when the lag reached 20.
+
+<img width="980" alt="Screenshot 2024-11-16 at 10 25 51 PM" src="https://github.com/user-attachments/assets/fbcca268-418d-4c0a-ae67-deaffdf1d028">
+
+
+
 
 
 
