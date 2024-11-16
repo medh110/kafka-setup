@@ -7,8 +7,8 @@ There is a configuration for Kafka producer and consumer. The task at hand is to
 Before deploying in K8s, we will run the service locally to verify its working. Install Kafka in your local environment:  
 After the Kafka broker is running, run your Kafka producer first with:
 
-```bash
-go run main.go```
+`bash
+go run main.go`
 
 ## Containerization
 The dockerfiles for producer and consumers are built and pushed to dockerhub. 
