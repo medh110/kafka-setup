@@ -1,0 +1,42 @@
+auth:
+  clientProtocol: plaintext
+  interBrokerProtocol: plaintext
+  tls:
+    enabled: false
+  sasl:
+    enabled: false
+  kraft:
+    enabled: true
+
+controller:
+  replicaCount: 1
+
+kraft:
+  enabled: true
+  clusterId: "LPkMHgXbR1KzDHpcj3r8QA"
+  replicas: 1
+
+listeners:
+  client:
+    protocol: PLAINTEXT
+    name: PLAINTEXT
+    containerPort: 9092
+  controller:
+    protocol: PLAINTEXT
+    name: CONTROLLER
+    containerPort: 9093
+  interbroker:
+    protocol: PLAINTEXT
+    name: INTERNAL
+    containerPort: 9094
+
+service:
+  type: ClusterIP
+  ports:
+    client: 9092
+    interbroker: 9094
+    controller: 9093
+
+persistence:
+  enabled: true
+  size: 8Gi

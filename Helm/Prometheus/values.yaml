@@ -1,0 +1,10 @@
+prometheus:
+  prometheusSpec:
+    namespaceSelector:
+      matchNames:
+        - monitoring
+    additionalScrapeConfigs:
+      - job_name: 'kafka-lag-exporter'
+        metrics_path: /metrics
+        static_configs:
+          - targets: ['my-kafka-lag-exporter-service:8000']

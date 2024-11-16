@@ -10,7 +10,7 @@ import (
 
 const (
 	topic          = "message-log"
-	broker1Address = "localhost:9092"
+	broker1Address = "kafka.default.svc.cluster.local:9092"
 )
 
 func consume(ctx context.Context) {

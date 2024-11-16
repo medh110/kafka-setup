@@ -1,0 +1,23 @@
+{{- if .Values.scaledObject.enabled }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Release.Name }}-kafka-hpa
+  namespace: {{ .Values.scaledObject.namespace }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.scaledObject.targetDeployment }}
+  minReplicaCount: {{ .Values.scaledObject.minReplicaCount }}
+  maxReplicaCount: {{ .Values.scaledObject.maxReplicaCount }}
+  pollingInterval: {{ .Values.scaledObject.pollingInterval }}
+  cooldownPeriod: {{ .Values.scaledObject.cooldownPeriod }}
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: {{ .Values.scaledObject.prometheus.serverAddress }}
+        metricName: {{ .Values.scaledObject.prometheus.metricName }}
+        query: {{ .Values.scaledObject.prometheus.query }}
+        threshold: "{{ .Values.scaledObject.prometheus.threshold }}"
+{{- end }}
