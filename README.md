@@ -45,7 +45,6 @@ terraform plan
 terraform apply
 ```
 
-
 ## Creating and Deploying Kafka producer and consumer using Helm chart
 
 First a kafka broker is deployed to the cluster with bitnami helm charts with custom values which disables SASL
@@ -75,3 +74,64 @@ Install the two helm charts
 * `helm install kafka-consumer .`
 * `kubectl get pods`
 * `kubectl logs <consumer pod name> -f`
+
+## Creating Consumer Autoscaling
+
+* `kubectl create namespace monitoring`
+  
+Add prometheus repo
+* `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
+
+Configure prometheus with custom values
+
+* `helm install prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring`
+* `kubectl get pods -n monitoring` #check all pods are up and running
+* `kubectl get svc -n monitoring` 
+* `kubectl port-forward svc/prometheus-stack-kube-prom-prometheus 9091:9090 -n monitoring` #open promethues UI
+
+Check promethues UI
+
+* `http://localhost:9091`
+
+Use and configure KEDA for event driven Autoscaling
+
+* ` helm install keda kedacore/keda --namespace=monitoring`
+
+Scrape metrics from kafka broker
+
+* `helm install my-kafka-lag-exporter kafka-lag-exporter/kafka-lag-exporter --namespace monitoring --set "clusters[0].name=monitoring"  --set "clusters[0].bootstrapBrokers=kafka.default.svc.cluster.local:9092"`
+
+* `kubectl port-forward svc/my-kafka-lag-exporter-service 8000:8000 -n monitoring` #verify metrics
+* `http://localhost:8000`
+
+<img width="1509" alt="kafka-metrics" src="https://github.com/user-attachments/assets/41f28887-86b3-4336-b7e6-5229e8d086ca">
+
+
+Add kafka scrape configs to promethues with custom values
+
+* `helm install prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring -f values.yaml`
+
+Port forwarward prometheus service to verify if kafka-lag-exporter has been added to the target
+
+
+<img width="1508" alt="kafka-lag" src="https://github.com/user-attachments/assets/55c4e614-b210-450d-94f2-4718f56d6aba">
+
+run the custom query
+
+* `max(kafka_consumergroup_group_max_lag{group="my-group"})`
+
+
+<img width="1512" alt="custom-query" src="https://github.com/user-attachments/assets/7778d258-86e1-491f-8d1e-f45380685b9d">
+
+
+Create scaledObjects to autoscale consumer pod based on lag and upgrade kafka-consumer helm chart 
+
+
+
+
+
+ 
+
+
+
+
