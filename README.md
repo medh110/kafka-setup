@@ -1,1 +1,5 @@
-helm upgrade kafka oci://registry-1.docker.io/bitnamicharts/kafka -f values.yaml
+# **Kafka Deployment**
+
+There is a configuration for Kafka producer and consumer. The task at hand is to deploy them in Kubernetes (K8s).
+
+## Local Testing
