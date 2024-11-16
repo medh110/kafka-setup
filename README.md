@@ -26,14 +26,13 @@ Enable node-to-node communication.
 
 Create using:
 
-```
-terraform init
+```terraform init
 terraform validate
 terraform plan
 terraform apply
-```
 
-## Installing kafka-broker
+
+## Creating and Deploying Kafka producer and consumer using Helm chart
 
 First a kafka broker is deployed to the cluster with bitnami helm charts with custom values which disables SASL
 
