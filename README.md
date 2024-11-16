@@ -30,7 +30,7 @@ Create using:
 terraform validate
 terraform plan
 terraform apply
-
+```
 
 ## Creating and Deploying Kafka producer and consumer using Helm chart
 
