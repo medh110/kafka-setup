@@ -78,7 +78,11 @@ Install the two helm charts
 * `kubectl get pods`
 * `kubectl logs <consumer pod name> -f`
 
-## Creating Consumer Autoscaling
+
+<img width="669" alt="Screenshot 2024-11-16 at 9 08 03 PM" src="https://github.com/user-attachments/assets/8e8847c0-95bd-420e-965e-ee0a608fd035">
+
+
+## Install promethues
 
 * `kubectl create namespace monitoring`
   
@@ -96,13 +100,16 @@ Check promethues UI
 
 * `http://localhost:9091`
 
-Use and configure KEDA for event driven Autoscaling
+## Use and configure KEDA and kafka-lag-exporter for event driven Autoscaling
 
 * ` helm install keda kedacore/keda --namespace=monitoring`
 
 Scrape metrics from kafka broker
 
 * `helm install my-kafka-lag-exporter kafka-lag-exporter/kafka-lag-exporter --namespace monitoring --set "clusters[0].name=monitoring"  --set "clusters[0].bootstrapBrokers=kafka.default.svc.cluster.local:9092"`
+
+<img width="898" alt="Screenshot 2024-11-16 at 9 08 15 PM" src="https://github.com/user-attachments/assets/b1c9b636-e603-4881-b4ab-ff216bf0dd79">
+
 
 * `kubectl port-forward svc/my-kafka-lag-exporter-service 8000:8000 -n monitoring` #verify metrics
 * `http://localhost:8000`
