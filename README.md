@@ -9,18 +9,6 @@ After the Kafka broker is running, run your Kafka producer first with:
 
 `go run main.go`
 
-## Containerization
-The dockerfiles for producer and consumers are built and pushed to dockerhub. 
-
-   ```
-docker build -t kafka-producer .
-docker login 
-docker tag kafka-producer:latest medhavisingh12/kafka:producer 
-docker push medhavisingh12/kafka:producer
-```
-
-Similary the consumer is dockerized and pushed to dockerhub. 
-
 ## Creation of EKS using terraform
 
 The VPC and EKS blocks have been seperated into modules. Where a custom vpc is built with subnet,nat gateway, internet gateway and routes. The EKS cluster is created on this VPC where the worker nodes (node group) will be deployed inside private subnets. 
@@ -45,7 +33,7 @@ terraform plan
 terraform apply
 ```
 
-## Creating and Deploying Kafka producer and consumer using Helm chart
+## Installing kafka-broker
 
 First a kafka broker is deployed to the cluster with bitnami helm charts with custom values which disables SASL
 
@@ -57,6 +45,21 @@ To add topic
 * `kubectl exec -it kafka-controller-0 -- sh`
 * `kafka-topics.sh --bootstrap-server localhost:9092 --create --topic message-log --partitions 1 --replication-factor 1`
 * `kafka-topics.sh --bootstrap-server localhost:9092 --list`
+
+## Containerization
+
+We get the FQDN of our kafka-broker service and add it to the broker address in main.go in kafka-consumer as well as kafka-producer.The dockerfiles for producer and consumers are built and pushed to dockerhub.
+
+   ```
+docker build -t kafka-producer .
+docker login 
+docker tag kafka-producer:latest medhavisingh12/kafka:producer 
+docker push medhavisingh12/kafka:producer
+```
+
+## Create and Deploy kafka consumer and producer pods
+
+Similary the consumer is dockerized and pushed to dockerhub. 
 
 Then two Helm charts for kafka producer and consumers are created. Where additonal kafka configs are added to the env in deployment.yaml which references the values in values.yaml:
 
