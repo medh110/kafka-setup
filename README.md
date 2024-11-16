@@ -8,7 +8,7 @@ Before deploying in K8s, we will run the service locally to verify its working. 
 After the Kafka broker is running, run your Kafka producer first with:
 
 ```bash
-go run main.go
+go run main.go```
 
 ## Containerization
 The dockerfiles for producer and consumers are built and pushed to dockerhub. 
@@ -16,7 +16,7 @@ The dockerfiles for producer and consumers are built and pushed to dockerhub.
    ```docker build -t kafka-producer .
      docker login 
      docker tag kafka-producer:latest medhavisingh12/kafka:producer 
-     docker push medhavisingh12/kafka:producer
+     docker push medhavisingh12/kafka:producer```
 
 Similary the consumer is dockerized and pushed to dockerhub. 
 
@@ -40,7 +40,7 @@ Create using:
 ```terraform init
 terraform validate
 terraform plan
-terraform apply
+terraform apply```
 
 
 ## Creating and Deploying Kafka producer and consumer using Helm chart
@@ -59,7 +59,7 @@ Then two Helm charts for kafka producer and consumers are created. Where additon
 ```kafka: 
   brokerAddress: "kafka.default.svc.cluster.local:9092" #which is the FQDN of the broker we just deployed 
   topic: "message-log"
-  groupID: "my-group"
+  groupID: "my-group"```
 
 Install the two helm charts
 * `helm install kafka-producer .`
